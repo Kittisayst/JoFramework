@@ -609,7 +609,6 @@ public final class JoDateChooser extends JPanel {
                 return null;
             } else {
                 SimpleDateFormat df = new SimpleDateFormat(formatdate);
-                System.out.println(df.format(dateValue()));
                 return df.format(dateValue());
             }
         } catch (Exception e) {
@@ -646,7 +645,7 @@ public final class JoDateChooser extends JPanel {
             if (day <= 31 && month <= 12) {
                 return true;
             } else {
-                 new JoAlert().messages("ຮູບແບບວັນທີບໍ່ຖືກຕ້ອງ", "ວັນທີ່ ຫຼື  ເດືອນ ບໍ່ຖືກຕ້ອງ", JoAlert.Icons.warning);
+                new JoAlert().messages("ຮູບແບບວັນທີບໍ່ຖືກຕ້ອງ", "ວັນທີ່ ຫຼື  ເດືອນ ບໍ່ຖືກຕ້ອງ", JoAlert.Icons.warning);
                 return false;
             }
         } else {
@@ -660,6 +659,7 @@ public final class JoDateChooser extends JPanel {
         try {
             if (checkDate()) {
                 txt_showDate.requestFocus();
+
                 return null;
             } else {
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -679,7 +679,6 @@ public final class JoDateChooser extends JPanel {
     private Date dateValue() throws ParseException {
         SimpleDateFormat sf = new SimpleDateFormat(formatdate);
         if (dateData == null) {
-            System.out.println(txt_showDate.getText());
             return sf.parse(txt_showDate.getText());
         } else if (txt_showDate.getText().isEmpty()) {
             return dateData;
@@ -759,11 +758,15 @@ public final class JoDateChooser extends JPanel {
     }
 
     public java.sql.Date getSQLDate() {
-        if (dateData == null) {
-            txt_showDate.requestFocus();
-            return null;
-        } else {
-            return new java.sql.Date(dateData.getTime());
+        try {
+            if (checkDate()) {
+                txt_showDate.requestFocus();
+                return null;
+            } else {
+                return new java.sql.Date(dateValue().getTime());
+            }
+        } catch (Exception e) {
+            return new java.sql.Date(new Date().getTime());
         }
     }
 

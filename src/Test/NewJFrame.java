@@ -35,7 +35,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (joDateChooser1.DateEmpty()) {
-            System.out.println(joDateChooser1.getDate());
+            System.out.println(joDateChooser1.getSQLDate());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
