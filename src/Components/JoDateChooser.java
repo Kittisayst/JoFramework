@@ -22,6 +22,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
@@ -176,7 +177,7 @@ public final class JoDateChooser extends JPanel {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null}},
-                    new String[]{"ທິດ","ຈັນ", "ອັງຄານ", "ພຸດ", "ພະຫັດ", "ສຸກ", "ເສົາ"}) {
+                    new String[]{"ທິດ", "ຈັນ", "ອັງຄານ", "ພຸດ", "ພະຫັດ", "ສຸກ", "ເສົາ"}) {
                 boolean[] canEdit = new boolean[]{false, false, false, false, false, true, true};
 
                 @Override
@@ -589,10 +590,109 @@ public final class JoDateChooser extends JPanel {
 
     }
 
+    public void setDateData(String dateData) {
+        try {
+            if (dateData != null || !dateData.equals("")) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                Date convert = date.parse(dateData);
+                setDateData(convert);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
+        }
+    }
+
+    public String getDate() {
+        try {
+            if (checkDate()) {
+                return null;
+            } else {
+                SimpleDateFormat df = new SimpleDateFormat(formatdate);
+                System.out.println(df.format(dateValue()));
+                return df.format(dateValue());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
+            return null;
+        }
+    }
+
+    public int getYear() {
+        Date mydate = null;
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        cal.setTime(mydate);
+        int year = cal.get(Calendar.YEAR);
+        return year;
+    }
+
+    public boolean DateEmpty() {
+        if (checkDate()) {
+            new JoAlert().messages("ວ່າງເປົ່າ", "ກະລຸນາເລືອກວັນທີ່", "warning");
+            txt_showDate.requestFocus();
+            return false;
+        } else {
+            return formatCheck(txt_showDate.getText());
+        }
+    }
+
+    private boolean formatCheck(String text) { // ກວດສອບຮູບແບບວັນທີ່ເດືອນປີ
+        String dateFormat = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
+        if (Pattern.matches(dateFormat, text)) {
+            int day = Integer.parseInt(text.substring(0, 2));
+            int month = Integer.parseInt(text.substring(3, 5));
+            // Check if day is <= 31 and month is <= 12
+            if (day <= 31 && month <= 12) {
+                return true;
+            } else {
+                 new JoAlert().messages("ຮູບແບບວັນທີບໍ່ຖືກຕ້ອງ", "ວັນທີ່ ຫຼື  ເດືອນ ບໍ່ຖືກຕ້ອງ", JoAlert.Icons.warning);
+                return false;
+            }
+        } else {
+            new JoAlert().messages("ຮູບແບບວັນທີບໍ່ຖືກຕ້ອງ", "ຕົວຢ່າງ: 09/12/2010", JoAlert.Icons.warning);
+            txt_showDate.requestFocus();
+            return false;
+        }
+    }
+
+    public String getDateSQL() {
+        try {
+            if (checkDate()) {
+                txt_showDate.requestFocus();
+                return null;
+            } else {
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                return sf.format(dateValue());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
+            return null;
+        }
+    }
+
+    private boolean checkDate() {
+        return dateData == null && txt_showDate.getText().isEmpty();
+    }
+
+    private Date dateValue() throws ParseException {
+        SimpleDateFormat sf = new SimpleDateFormat(formatdate);
+        if (dateData == null) {
+            System.out.println(txt_showDate.getText());
+            return sf.parse(txt_showDate.getText());
+        } else if (txt_showDate.getText().isEmpty()) {
+            return dateData;
+        } else {
+            return dateData == null ? sf.parse(txt_showDate.getText()) : dateData;
+        }
+    }
+
     public enum Language {
         LAOS, ENGLISH;
     }
 
+    // Getter Setter
     public Color getColorButtonHover() {
         return this.colorButtonHover;
     }
@@ -678,44 +778,6 @@ public final class JoDateChooser extends JPanel {
         }
     }
 
-    public void setDateData(String dateData) {
-        try {
-            if (dateData != null || !dateData.equals("")) {
-                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                Date convert = date.parse(dateData);
-                setDateData(convert);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
-        }
-    }
-
-    public String getDate() {
-        try {
-            if (dateData == null || txt_showDate.getText().isEmpty()) {
-                return null;
-            } else {
-                SimpleDateFormat df = new SimpleDateFormat(formatdate);
-                return df.format(dateData);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
-            return null;
-        }
-    }
-
-    public int getYear() {
-        Date mydate = null;
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        cal.setTime(mydate);
-        int year = cal.get(Calendar.YEAR);
-//        int gmonth = cal.get(Calendar.MONTH);
-//        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return year;
-    }
-
     public Color getColorCurrentDay() {
         return colorCurrentDay;
     }
@@ -770,33 +832,6 @@ public final class JoDateChooser extends JPanel {
     public void setDateIcon(GoogleMaterialDesignIcons dateIcon) {
         this.dateIcon = dateIcon;
         btnCalendar.setJoIcons(dateIcon);
-    }
-
-    public boolean DateEmpty() {
-        if (txt_showDate.getText().isEmpty()) {
-            new JoAlert().messages("ວ່າງເປົ່າ", "ກະລຸນາເລືອກວັນທີ່", "warning");
-            txt_showDate.requestFocus();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public String getDateSQL() {
-
-        try {
-            if (dateData == null || txt_showDate.getText().isEmpty()) {
-                txt_showDate.requestFocus();
-                return null;
-            } else {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                return df.format(dateData);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
-            return null;
-        }
     }
 
 }
