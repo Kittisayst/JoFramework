@@ -176,7 +176,7 @@ public final class JoDateChooser extends JPanel {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null}},
-                    new String[]{"ຈັນ", "ອັງຄານ", "ພຸດ", "ພະຫັດ", "ສຸກ", "ເສົາ", "ທິດ"}) {
+                    new String[]{"ທິດ","ຈັນ", "ອັງຄານ", "ພຸດ", "ພະຫັດ", "ສຸກ", "ເສົາ"}) {
                 boolean[] canEdit = new boolean[]{false, false, false, false, false, true, true};
 
                 @Override
@@ -337,13 +337,7 @@ public final class JoDateChooser extends JPanel {
                     .addGap(0, 0, 0)
                     .addComponent((Component) this.btnCalendar, 0, 0, this.getPreferredSize().height)
                     .addComponent((Component) this.txt_showDate, -1, -1, 32767));
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JoDateChooser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(JoDateChooser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JoDateChooser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(JoDateChooser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -691,7 +685,7 @@ public final class JoDateChooser extends JPanel {
                 Date convert = date.parse(dateData);
                 setDateData(convert);
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             new JoAlert().messages("ຂໍ້ຜິດພາດ", getClass().getName(), "error");
         }
@@ -717,8 +711,8 @@ public final class JoDateChooser extends JPanel {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         cal.setTime(mydate);
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+//        int gmonth = cal.get(Calendar.MONTH);
+//        int day = cal.get(Calendar.DAY_OF_MONTH);
         return year;
     }
 
@@ -789,7 +783,7 @@ public final class JoDateChooser extends JPanel {
     }
 
     public String getDateSQL() {
-        
+
         try {
             if (dateData == null || txt_showDate.getText().isEmpty()) {
                 txt_showDate.requestFocus();
