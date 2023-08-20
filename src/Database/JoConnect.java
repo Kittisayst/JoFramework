@@ -6,6 +6,7 @@ import java.sql.*;
 public class JoConnect {
 
     private JoProperties prop;
+    private Connection con = null;
 
     public static Connection getConnection() {
         JoProperties properties = new JoProperties("JoConfig/config.properties");
@@ -32,14 +33,18 @@ public class JoConnect {
     public Connection getConnectionDefault() {
         JoProperties properties = new JoProperties("JoConfig/config.properties");
         try {
-            Class.forName(properties.getValueAt("db.Driver"));
-            String url = properties.getValueAt("db.JDBCHTTP") + properties.getValueAt("db.Server") + "/" + properties.getValueAt("db.database") + properties.getValueAt("db.UTF8");
+            String dirver = properties.getValueAt("db.Driver");
+            Class.forName(dirver);
+            String database = properties.getValueAt("db.database");
+            System.out.println("database");
+            String utf8 = properties.getValueAt("db.UTF8");
+            String url = properties.getValueAt("db.JDBCHTTP") + properties.getValueAt("db.Server") + "/" + database + utf8;
             String user = properties.getValueAt("db.user");
             String password = properties.getValueAt("db.password");
-            Connection con = DriverManager.getConnection(url, user, password);
+            con = DriverManager.getConnection(url, user, password);
             return con;
         } catch (ClassNotFoundException | SQLException e) {
-            return null;
+            return con;
         }
     }
 

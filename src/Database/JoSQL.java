@@ -108,6 +108,7 @@ public class JoSQL {
             if (rs.next()) {
                 Count = rs.getInt(1);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
             JoAlert.Error(e, this);
@@ -125,6 +126,7 @@ public class JoSQL {
             if (rs.next()) {
                 Count = rs.getInt(1);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
             JoAlert.Error(e, this);
@@ -143,6 +145,7 @@ public class JoSQL {
             ResultSet rs = getSelectAll();
             ResultSetMetaData meta = rs.getMetaData();
             Count = meta.getColumnCount();
+            rs.close();
         } catch (Exception ex) {
             Logger.getLogger(JoSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,6 +159,7 @@ public class JoSQL {
             ResultSet rs = ps.executeQuery();
             ResultSetMetaData meta = rs.getMetaData();
             sql = meta.getColumnName(1);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -168,6 +172,7 @@ public class JoSQL {
             ResultSet rs = getSelectAll();
             ResultSetMetaData meta = rs.getMetaData();
             str = meta.getColumnName(columIndex);
+            rs.close();
             return str;
         } catch (Exception e) {
             JoAlert alert = new JoAlert();
@@ -186,6 +191,7 @@ public class JoSQL {
             for (int i = 0; i < meta.getColumnCount(); i++) {
                 question.add("?");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -203,6 +209,7 @@ public class JoSQL {
                 columnName.add(meta.getColumnName(i) + "=?");
             }
             sql = "UPDATE " + TableName + " SET " + ArraryToString(columnName) + " WHERE " + ColumnID + "=?";
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
