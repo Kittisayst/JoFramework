@@ -36,7 +36,6 @@ public class JoConnect {
             String dirver = properties.getValueAt("db.Driver");
             Class.forName(dirver);
             String database = properties.getValueAt("db.database");
-            System.out.println("database");
             String utf8 = properties.getValueAt("db.UTF8");
             String url = properties.getValueAt("db.JDBCHTTP") + properties.getValueAt("db.Server") + "/" + database + utf8;
             String user = properties.getValueAt("db.user");
@@ -45,6 +44,14 @@ public class JoConnect {
             return con;
         } catch (ClassNotFoundException | SQLException e) {
             return con;
+        }
+    }
+
+    public void close() {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
