@@ -43,6 +43,13 @@ public class JoSQL {
         }
     }
 
+    public PreparedStatement setPrepared(PreparedStatement pre, Object... params) throws SQLException {
+        for (int i = 0; i < params.length; i++) {
+            pre.setObject(i + 1, params[i]);
+        }
+        return pre;
+    }
+
     public ResultSet getSelectAll() throws Exception {
         PreparedStatement ps = c.prepareStatement(SQL_SELECT_ALL);
         ResultSet rs = ps.executeQuery();
