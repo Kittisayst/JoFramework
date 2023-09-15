@@ -49,7 +49,9 @@ public class JoConnect {
 
     public void close() {
         try {
-            con.close();
+            if (con != null) {
+                con.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
