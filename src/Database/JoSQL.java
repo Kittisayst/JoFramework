@@ -56,6 +56,12 @@ public class JoSQL {
         return rs;
     }
 
+    public ResultSet getSelectAll(ORDER order) throws Exception {
+        PreparedStatement ps = c.prepareStatement(SQL_SELECT_ALL+" ORDER BY "+ColumnID+" "+getORDER(order));
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
     public ResultSet getSelectById(int Value) throws SQLException {
         PreparedStatement pre = c.prepareStatement(SQL_SELECT_ALL + " WHERE " + ColumnID + "=?");
         pre.setInt(1, Value);
@@ -233,6 +239,22 @@ public class JoSQL {
 
     private String removeLastChar(String str) {
         return str.substring(0, str.length() - 1);
+    }
+
+    private String getORDER(ORDER order) {
+        switch (order) {
+            case ASC:
+                return "ASC";
+            case DESC:
+                return "DESC";
+            default:
+                throw new AssertionError();
+        }
+    }
+
+    public enum ORDER {
+        ASC,
+        DESC
     }
 
     public String getTableName() {
