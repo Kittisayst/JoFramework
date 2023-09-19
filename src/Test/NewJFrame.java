@@ -11,16 +11,19 @@ public class NewJFrame extends javax.swing.JFrame {
 
     public NewJFrame() {
         initComponents();
-        Connection c = new JoConnect().getConnectionDefault();
-        JoSQL joSQL = new JoSQL(c, "tb_absent");
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        joProgressBar1 = new Components.JoProgressBar();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        joProgressBar1.setValue(60);
+        getContentPane().add(joProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 320, 30));
 
         setSize(new java.awt.Dimension(940, 511));
         setLocationRelativeTo(null);
@@ -61,6 +64,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Components.JoProgressBar joProgressBar1;
     // End of variables declaration//GEN-END:variables
     private MouseAdapter showMenu(String path) {
         return new MouseAdapter() {
