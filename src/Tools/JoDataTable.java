@@ -287,4 +287,10 @@ public class JoDataTable {
         FontDesing();
     }
 
+    public void revomeBg() {
+        PanelHeader.setOpaque(false);
+        PanelTable.setOpaque(false);
+        PanelFooter.setOpaque(false);
+    }
+
 }

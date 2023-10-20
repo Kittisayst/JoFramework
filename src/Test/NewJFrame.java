@@ -17,17 +17,28 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        joProgressBar1 = new Components.JoProgressBar();
+        joDateChooser1 = new Components.JoDateChooser();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(joDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, -1, -1));
 
-        joProgressBar1.setValue(60);
-        getContentPane().add(joProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 320, 30));
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, -1, -1));
 
         setSize(new java.awt.Dimension(940, 511));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println(joDateChooser1.getDateSQL());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -64,7 +75,8 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Components.JoProgressBar joProgressBar1;
+    private javax.swing.JButton jButton1;
+    private Components.JoDateChooser joDateChooser1;
     // End of variables declaration//GEN-END:variables
     private MouseAdapter showMenu(String path) {
         return new MouseAdapter() {

@@ -301,7 +301,16 @@ public final class JoDateChooser extends JPanel {
             this.btnCalendar.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent evt) {
-                    JoDateChooser.this.btnCalendarioMousePressed(evt);
+                    try {
+                        if (!txt_showDate.getText().equals("")) {
+                            SimpleDateFormat sf = new SimpleDateFormat(formatdate);
+                            dateData = sf.parse(txt_showDate.getText());
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    } finally {
+                        JoDateChooser.this.btnCalendarioMousePressed(evt);
+                    }
                 }
             });
 
@@ -659,7 +668,6 @@ public final class JoDateChooser extends JPanel {
         try {
             if (checkDate()) {
                 txt_showDate.requestFocus();
-
                 return null;
             } else {
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -678,7 +686,9 @@ public final class JoDateChooser extends JPanel {
 
     private Date dateValue() throws ParseException {
         SimpleDateFormat sf = new SimpleDateFormat(formatdate);
-        if (dateData == null) {
+        if (!txt_showDate.getText().equals("")) {
+            return sf.parse(txt_showDate.getText());
+        } else if (dateData == null) {
             return sf.parse(txt_showDate.getText());
         } else if (txt_showDate.getText().isEmpty()) {
             return dateData;
